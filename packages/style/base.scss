@@ -1,0 +1,16 @@
+*{
+  padding:0;
+  margin:0;
+}
+// svg{
+//   width: 1em;
+//   height: 1em;
+// }
+#app{
+  margin:0;
+  text-align: left;
+}
+html,body,#app,.el-container,.el-menu{
+  height: 100%;
+  width: 100%;
+}
