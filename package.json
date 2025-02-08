@@ -17,7 +17,7 @@
     "@types/lodash": "^4.14.188",
     "element-plus": "^2.2.19",
     "lodash": "^4.17.21",
-    "vue": "^3.2.41",
+    "vue": "3.2.41",
     "vue-router": "next",
     "wangeditor": "^4.7.15"
   },

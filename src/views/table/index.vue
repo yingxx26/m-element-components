@@ -11,6 +11,7 @@
     :options="options" 
     :data="tableData" 
     elementLoadingText="加载中....."
+    elementLoadingBackground="black"
     @confirm="confirm"
     :isEditRow="true"
     pagination
@@ -22,6 +23,7 @@
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
     >
+<!--  自定义列    -->
       <template #date="{scope}">
         <el-icon-timer></el-icon-timer>
         <span>{{scope.row.date}}</span>
@@ -30,12 +32,14 @@
         <el-icon-timer></el-icon-timer>
         <span>{{scope.row.name}}</span>
       </template>
+<!--   可编辑   -->
       <template #cellEdit="{scope}">
         <div style="display:flex;">
           <el-button size="small" type="primary" @click="confirm(scope)">确认</el-button>
           <el-button size="small" type="danger">取消</el-button>
         </div>
       </template>
+<!--   操作列（最后一列）   -->
       <template #action="scope">
         <el-button size="small" type="primary" @click="edit(scope.scope)">编辑</el-button>
         <el-button size="small" type="danger">删除</el-button>
@@ -57,8 +61,8 @@ interface TableItem {
   address: string
 }
 
-const tableData = ref<TableItem[]>(data)
-
+//const tableData = ref<TableItem[]>(data)
+const tableData = ref<TableItem[]>([])
 const editRowIndex = ref<string>('')
 
 let current = ref<number>(1)
@@ -72,9 +76,9 @@ const edit = (scope:any) => {
 
 
 
-// setTimeout(() => {
-//   tableData.value = data
-// },3000)
+  setTimeout(() => {
+   tableData.value = data
+ },1000)
 
 
 const confirm = (scope:any) => { 

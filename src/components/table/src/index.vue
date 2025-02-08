@@ -17,32 +17,40 @@
           :align="item.align">
           <template #default="scope">
             <template v-if="scope.row.rowEdit">
-              <el-input size="small" v-model="scope.row[item.prop]"></el-input>
+              <el-input size="small" v-model="scope.row[item.prop]">啊啊a</el-input>
             </template>
             <template v-else>
+              <!--编辑状态列表              -->
               <template v-if="(scope.$index + scope.column.id) === currentEdit">
                 <div style="display: flex;align-items: center;">
                   <div>
-                    <el-input size="small" v-model="scope.row[item.prop]"></el-input>
+                    <el-input size="small" v-model="scope.row[item.prop]">啊啊b</el-input>
                   </div>
                   <div @click.stop="cancelRow">
+                    <!-- 插槽  （显示父组件的按钮）                 -->
                     <slot name="cellEdit" v-if="$slots.cellEdit" :scope="scope"></slot>
+                    <!-- 非插槽  （显示子组件预设的按钮）                 -->
                     <div v-else class="action-icon">
-                      <el-icon-check class="check" @click.stop="check(scope)"></el-icon-check>
-                      <el-icon-close class="close" @click.stop="close(scope)"></el-icon-close>
+                      <el-icon-check class="check" @click.stop="check(scope)">啊啊c</el-icon-check>
+                      <el-icon-close class="close" @click.stop="close(scope)">啊啊d</el-icon-close>
                     </div>
                   </div>
                 </div>
               </template>
+              <!--非编辑状态列表              -->
               <template v-else >
-                <slot v-if="item.slot" :name="item.slot" :scope="scope"></slot>
-                <span v-else>{{scope.row[item.prop]}}</span>
+                <!--自定义列表              -->
+                <slot v-if="item.slot" :name="item.slot" :scope="scope">啊啊e</slot>
+                <!--非自定义列表              -->
+                <span v-else>啊啊f{{scope.row[item.prop]}}</span>
+                <!--动态组件-->
                 <component class="edit-box" :is="`el-icon-${toLine(editIcon)}`" @click.stop="edit(scope)"></component>
               </template>
             </template>
           </template>
         </el-table-column>
       </template>
+      <!--操作项列表    （循环外）         -->
       <el-table-column 
         :label="actionOption.label"
         :width="actionOption.width"
@@ -53,6 +61,7 @@
         </template>
       </el-table-column>
     </el-table>
+<!--   分页 -->
     <div v-if="pagination" class="pagination" :style="{justifyContent}">
       <el-pagination
         v-model:currentPage="currentPage"
