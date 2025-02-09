@@ -5,7 +5,7 @@
  * @LastEditTime: 2022-11-10 11:09:38
  * @description: 
  */
-import { App } from 'vue'
+import {App} from 'vue'
 import chooseArea from './chooseArea'
 import chooseIcon from './chooseIcon'
 import trend from './trend'
@@ -20,28 +20,30 @@ import form from './form'
 import modalForm from './modalForm'
 import table from './table'
 import calendar from './calendar'
+import myTable from "./myTable";
 
 const components = [
-  chooseArea,
-  chooseIcon,
-  trend,
-  notification,
-  list,
-  menu,
-  progress,
-  chooseTime,
-  chooseDate,
-  chooseCity,
-  form,
-  modalForm,
-  table,
-  calendar
+    chooseArea,
+    chooseIcon,
+    trend,
+    notification,
+    list,
+    menu,
+    progress,
+    chooseTime,
+    chooseDate,
+    chooseCity,
+    form,
+    modalForm,
+    table,
+    calendar,
+    myTable
 ]
 
 export default {
-  install(app:App) { 
-    components.map(item => { 
-      app.use(item)
-    })
-  }
+    install(app: App) {
+        components.map(item => {
+            app.use(item)
+        })
+    }
 }
