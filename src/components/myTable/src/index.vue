@@ -4,23 +4,30 @@
       <template v-for="(item, index) in tableOptions" :key="index">
 
         <el-table-column
-            v-if="!item.slot"
-            :label="item.label"
-            :prop="item.prop"
-            :align="item.align"
-            :width="item.width"
-        ></el-table-column>
-        <!--循环不显示， 给父组件 插槽      -->
-        <el-table-column
-            v-else
             :label="item.label"
             :prop="item.prop"
             :align="item.align"
             :width="item.width"
         >
           <template #default="scope">
-            <!-- 插槽套插槽  外层自己，内层elementplus           -->
-            <slot :name="item.slot" :scope="scope"></slot>
+            <!--输入框           -->
+            <template v-if="(scope.$index + scope.column.id)===currentEdit">
+              <div style="display: flex">
+                <el-input size="small" v-model="scope.row[item.prop]"></el-input>
+                <div class="icons">
+                  <el-icon-check></el-icon-check>
+                  <el-icon-close></el-icon-close>
+                </div>
+              </div>
+
+            </template>
+            <!--原始           -->
+            <template v-else>
+              <!-- 插槽套插槽  外层自己，内层elementplus           -->
+              <slot v-if="item.slot" :name="item.slot" :scope="scope"></slot>  <!-- 自定义列-->
+              <span v-else> {{ scope.row[item.prop] }}</span>  <!--原始列-->
+              <el-icon-edit class="edit" v-if="item.editable" @click="clickEdit(scope)"></el-icon-edit>
+            </template>
           </template>
         </el-table-column>
       </template>
@@ -42,8 +49,9 @@
 
 <script lang="ts" setup>
 
-import {computed, PropType} from "vue";
+import {computed, PropType, ref} from "vue";
 import {TableOptions} from "./types";
+
 
 let props = defineProps({
   options: {
@@ -71,9 +79,26 @@ let props = defineProps({
 let tableOptions = computed(() => props.options?.filter(item => !item.action))
 let actionOptions = computed(() => props.options.find(item => item.action))
 let isLoading = computed(() => !props.data || !props.data.length)
+
+let currentEdit = ref<string>('');
+
+let clickEdit = (scope: any) => {
+  console.log(scope)
+  currentEdit.value = scope.$index + scope.column.id;
+}
 </script>
 
 
-<script lang="scss" scoped>
+<style lang="scss" scoped>
+.edit {
+  width: 1em;
+  position: relative;
+  top: 2px;
+  cursor: pointer;
+}
 
-</script>
+.icons {
+  display: flex;
+  width: 4em;
+}
+</style>

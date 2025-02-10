@@ -2,8 +2,8 @@
   <div>
     <m-myTable :data="tableData" :options="options" elementLoadingBackground="black">
       <template #name="{scope}">
+        <el-icon-timer></el-icon-timer>
         {{ scope.row.name }}
-        <el-icon-edit></el-icon-edit>
       </template>
       <template #action="{scope}">
         <el-button type="primary" @click="edit(scope)">编辑</el-button>
