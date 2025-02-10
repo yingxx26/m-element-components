@@ -16,9 +16,11 @@
           :width="item.width"
           :align="item.align">
           <template #default="scope">
+            <!--可编辑行-->
             <template v-if="scope.row.rowEdit">
               <el-input size="small" v-model="scope.row[item.prop]">啊啊a</el-input>
             </template>
+            <!--可编辑行-->
             <template v-else>
               <!--编辑状态列表              -->
               <template v-if="(scope.$index + scope.column.id) === currentEdit">
@@ -197,7 +199,7 @@ const cancelRow = () => {
 
 // 点击行的事件
 const rowClick = (row:any,column:any) => { 
-  if (column.label === actionOption.value.label!) { 
+  if (column.label === actionOption.value.label!) {
     console.log(123)
     if (props.isEditRow && props.editRowIndex === cloneEditRowIndex.value) { 
       row.rowEdit = !row.rowEdit

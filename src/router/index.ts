@@ -110,6 +110,14 @@ const routes: RouteRecordRaw[] = [
         component: ()=>import('../views/table/index.vue')
       },
       {
+        path: '/myTable',
+        name:'MyTable',
+        meta: {
+          title:'我的表格'
+        },
+        component: ()=>import('../views/myTable/index.vue')
+      },
+      {
         path: '/calendar',
         name:'Calendar',
         meta: {

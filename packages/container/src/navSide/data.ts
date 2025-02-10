@@ -70,5 +70,10 @@ export const menuData = [
     icon: 'ShoppingBag',
     name: '表格',
     index: '/table'
+  },
+  {
+    icon: 'ShoppingBag',
+    name: '我的表格',
+    index: '/myTable'
   }
 ]
