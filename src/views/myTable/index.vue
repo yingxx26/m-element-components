@@ -1,12 +1,32 @@
 <template>
   <div>
-    <m-myTable :data="data" :options="options"></m-myTable>
+    <m-myTable :data="tableData" :options="options" elementLoadingBackground="black">
+      <template #name="{scope}">
+        {{ scope.row.name }}
+        <el-icon-edit></el-icon-edit>
+      </template>
+      <template #action="{scope}">
+        <el-button type="primary" @click="edit(scope)">编辑</el-button>
+      </template>
+    </m-myTable>
   </div>
 </template>
 
 <script lang="ts" setup>
 import {TableOptions} from "../../components/myTable/src/types";
+import {ref} from "vue";
 
+interface TableData {
+  date: string,
+  name: string,
+  address: string
+}
+
+let tableData = ref<TableData[]>([]);
+setTimeout(() => {
+      tableData.value = data;
+    }, 1000
+)
 let data = [
   {
     date: '2016-05-03',
@@ -33,12 +53,14 @@ let options: TableOptions[] = [
   {
     label: '日期',
     prop: 'date',
-    align: 'center'
+    align: 'center',
+    editable: true
   },
   {
     label: '姓名',
     prop: 'name',
-    align: 'center'
+    align: 'center',
+    slot: 'name'
   },
   {
     label: '地址',
@@ -52,9 +74,15 @@ let options: TableOptions[] = [
     action: true
   }
 ]
+
+let edit = (scope: any) => {
+  console.log(scope)
+}
 </script>
 
 
-<script lang="scss" scoped>
-
-</script>
+<style lang="scss" scoped>
+svg {
+  width: 1em;
+}
+</style>

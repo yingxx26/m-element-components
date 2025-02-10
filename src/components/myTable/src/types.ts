@@ -5,5 +5,6 @@ export interface TableOptions {
     width?: string | number,
     align?: 'left' | 'center' | 'right',
     slot?: string,
-    action?: boolean
+    action?: boolean,
+    editable?: boolean
 }
