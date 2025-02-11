@@ -1,7 +1,7 @@
 <template>
   <div>
     <m-myTable :data="tableData" :options="options" elementLoadingBackground="black" @check="check"
-               isEditRow :editRowIndex="editRowIndex"
+               isEditRow v-model:editRowIndex="editRowIndex"
     >
 
       <!--自定义插槽     -->
@@ -12,6 +12,7 @@
       <!--操作列插槽     -->
       <template #action="{scope}">
         <el-button type="primary" @click="edit(scope)">编辑</el-button>
+        <el-button size="small" type="danger">删除</el-button>
       </template>
       <!--单元格√X插槽     -->
       <template #editCell="{scope}">
@@ -30,7 +31,8 @@
 
 <script lang="ts" setup>
 import {TableOptions} from "../../components/myTable/src/types";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import axios from "axios";
 
 interface TableData {
   date: string,
@@ -40,32 +42,10 @@ interface TableData {
 
 const editRowIndex = ref<string>('')
 const tableData = ref<TableData[]>([]);
-setTimeout(() => {
-      tableData.value = data;
-    }, 1000
-)
-const data = [
-  {
-    date: '2016-05-03',
-    name: 'Tom1',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom2',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom3',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom4',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-];
+
+const current = ref<number>(1);
+const pageSize = ref<number>(10);
+const total = ref<number>(0);
 const options: TableOptions[] = [
   {
     label: '日期',
@@ -91,6 +71,43 @@ const options: TableOptions[] = [
     action: true
   }
 ]
+
+/*const data = [
+  {
+    date: '2016-05-03',
+    name: 'Tom1',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom2',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom3',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-01',
+    name: 'Tom4',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+];
+ setTimeout(() => {
+      tableData.value = data;
+    }, 1000
+) */
+onMounted(() => {
+  axios.post('/api/list', {
+    current: current.value,
+    pageSize: pageSize.value
+  }).then((res: any) => {
+    tableData.value = res.data.data.rows
+    total.value = res.data.data.total
+    console.log(res.data)
+  })
+})
 
 let edit = (scope: any) => {
   editRowIndex.value = 'edit';

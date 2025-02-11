@@ -18,7 +18,7 @@
             <template v-else>
               <!--输入框   ,这里是table自己的插槽， click事件通信不是插槽(显示内容固定，只需要把数据传回父组件)     -->
               <template v-if="(scope.$index + scope.column.id)===currentEdit">
-                <div @click="clickEditCell" style="display: flex">
+                <div @click.stop="clickEditCell" style="display: flex">
                   <el-input size="small" v-model="scope.row[item.prop]"></el-input>
                   <slot v-if="$slots.editCell" name="editCell" :scope="scope"></slot><!--√X插槽-->
                   <div v-else class="icons"><!--√X原始 -->
@@ -34,7 +34,7 @@
                 <span v-else> {{ scope.row[item.prop] }}</span>  <!--原始列-->
                 <!--<el-icon-edit class="edit" v-if="item.editable" @click="clickEdit(scope)"></el-icon-edit>-->
                 <component :is="`el-icon-${toLine(editIcon)}`" class="edit" v-if="item.editable"
-                           @click="clickEdit(scope)"></component>
+                           @click.stop="clickEdit(scope)"></component>
               </template>
             </template>
           </template>
@@ -52,11 +52,26 @@
           <slot v-else name="action" :scope="scope"></slot>  <!--行 自定义按钮 插槽 -->
         </template>
       </el-table-column>
-
     </el-table>
+
+    <div class="pagination">
+      <el-pagination
+          v-model:current-page="currentPage"
+          v-model:page-size="pageSize"
+          :page-sizes="pageSizes"
+
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+      />
+    </div>
+
   </div>
 </template>
-
+<!--:small="small"
+          :disabled="disabled"
+          :background="background"-->
 <script lang="ts" setup>
 
 import {computed, onMounted, PropType, ref, watch} from "vue";
@@ -97,6 +112,21 @@ const props = defineProps({
   editRowIndex: {
     type: String,
     default: ''
+  },
+  currentPage: {
+    type: Number,
+    default: 1
+  },
+  pageSizes: {
+    type: Array as PropType<number[]>,
+    default: [10, 20, 30, 40]
+  },
+  pageSize: {
+    type: Number,
+    default: 10
+  },
+  total: {
+    type: Number,
   }
 })
 
@@ -109,7 +139,7 @@ const currentEdit = ref<string>('');
 const cloneTableData = ref<any[]>([])
 const cloneEditRowIndex = ref<string>('')
 
-const emits = defineEmits(['check', 'close'])
+const emits = defineEmits(['check', 'close', 'update:editRowIndex'])
 
 onMounted(() => {
   cloneNewTableData();
@@ -141,6 +171,9 @@ let rowClick = (row: any, colum: any) => {
           item.rowEdit = false;
         }
       })
+      if (!row.rowEdit) {
+        emits('update:editRowIndex', '');
+      }
     }
     console.log(row)
   }
@@ -181,5 +214,11 @@ let clickEditCell = (scope: any) => {
   display: flex;
   width: 4em;
   cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  justify-content: right;
+  margin-top: 16px;
 }
 </style>
