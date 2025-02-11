@@ -1,6 +1,8 @@
 <template>
   <div>
-    <el-table :data="data" v-loading="isLoading" :element-loading-background="elementLoadingBackground">
+    <el-table :data="cloneTableData" v-loading="isLoading" :element-loading-background="elementLoadingBackground"
+              @row-click="rowClick"
+    >
       <template v-for="(item, index) in tableOptions" :key="index">
 
         <el-table-column
@@ -10,23 +12,30 @@
             :width="item.width"
         >
           <template #default="scope">
-            <!--输入框           -->
-            <template v-if="(scope.$index + scope.column.id)===currentEdit">
-              <div style="display: flex">
-                <el-input size="small" v-model="scope.row[item.prop]"></el-input>
-                <div class="icons">
-                  <el-icon-check></el-icon-check>
-                  <el-icon-close></el-icon-close>
-                </div>
-              </div>
-
+            <template v-if="scope.row.rowEdit">
+              <el-input size="small" v-model="scope.row[item.prop]"></el-input>
             </template>
-            <!--原始           -->
             <template v-else>
-              <!-- 插槽套插槽  外层自己，内层elementplus           -->
-              <slot v-if="item.slot" :name="item.slot" :scope="scope"></slot>  <!-- 自定义列-->
-              <span v-else> {{ scope.row[item.prop] }}</span>  <!--原始列-->
-              <el-icon-edit class="edit" v-if="item.editable" @click="clickEdit(scope)"></el-icon-edit>
+              <!--输入框   ,这里是table自己的插槽， click事件通信不是插槽(显示内容固定，只需要把数据传回父组件)     -->
+              <template v-if="(scope.$index + scope.column.id)===currentEdit">
+                <div @click="clickEditCell" style="display: flex">
+                  <el-input size="small" v-model="scope.row[item.prop]"></el-input>
+                  <slot v-if="$slots.editCell" name="editCell" :scope="scope"></slot><!--√X插槽-->
+                  <div v-else class="icons"><!--√X原始 -->
+                    <el-icon-check @click="check(scope)"></el-icon-check>
+                    <el-icon-close @click="close(scope)"></el-icon-close>
+                  </div>
+                </div>
+              </template>
+              <!--非输入框（原始）           -->
+              <template v-else>
+                <!-- 插槽套插槽  外层自己，内层elementplus           -->
+                <slot v-if="item.slot" :name="item.slot" :scope="scope"></slot>  <!-- 自定义列-->
+                <span v-else> {{ scope.row[item.prop] }}</span>  <!--原始列-->
+                <!--<el-icon-edit class="edit" v-if="item.editable" @click="clickEdit(scope)"></el-icon-edit>-->
+                <component :is="`el-icon-${toLine(editIcon)}`" class="edit" v-if="item.editable"
+                           @click="clickEdit(scope)"></component>
+              </template>
             </template>
           </template>
         </el-table-column>
@@ -39,7 +48,8 @@
           :width="actionOptions!.width"
       >
         <template #default="scope">
-          <slot name="action" :scope="scope"></slot>
+          <slot v-if="scope.row.rowEdit" name="editRow" :scope="scope"></slot> <!--行√X插槽 -->
+          <slot v-else name="action" :scope="scope"></slot>  <!--行 自定义按钮 插槽 -->
         </template>
       </el-table-column>
 
@@ -49,11 +59,13 @@
 
 <script lang="ts" setup>
 
-import {computed, PropType, ref} from "vue";
+import {computed, onMounted, PropType, ref, watch} from "vue";
 import {TableOptions} from "./types";
+import {toLine} from "../../../utils";
+import {cloneDeep} from "lodash";
 
 
-let props = defineProps({
+const props = defineProps({
   options: {
     type: Array as PropType<TableOptions[]>,
     required: true
@@ -73,19 +85,87 @@ let props = defineProps({
   },
   elementLoadingBackground: {
     type: String
+  },
+  editIcon: {
+    type: String,
+    default: 'edit'
+  },
+  isEditRow: {
+    type: Boolean,
+    default: false
+  },
+  editRowIndex: {
+    type: String,
+    default: ''
   }
 })
 
-let tableOptions = computed(() => props.options?.filter(item => !item.action))
-let actionOptions = computed(() => props.options.find(item => item.action))
-let isLoading = computed(() => !props.data || !props.data.length)
+const tableOptions = computed(() => props.options?.filter(item => !item.action))
+const actionOptions = computed(() => props.options.find(item => item.action))
+const isLoading = computed(() => !props.data || !props.data.length)
 
-let currentEdit = ref<string>('');
+const currentEdit = ref<string>('');
+
+const cloneTableData = ref<any[]>([])
+const cloneEditRowIndex = ref<string>('')
+
+const emits = defineEmits(['check', 'close'])
+
+onMounted(() => {
+  cloneNewTableData();
+})
+
+watch(() => props.data, val => {
+  cloneNewTableData();
+}, {deep: true})
+
+watch(() => props.editRowIndex, val => {
+  if (val) {
+    cloneEditRowIndex.value = val;
+  }
+})
+
+let cloneNewTableData = () => {
+  cloneTableData.value = cloneDeep(props.data);
+  cloneTableData.value.map(item => {
+    item.rowEdit = false;
+  })
+}
+
+let rowClick = (row: any, colum: any) => {
+  if (colum.label === actionOptions.value!.label) {
+    if (props.isEditRow && cloneEditRowIndex.value === props.editRowIndex) {
+      row.rowEdit = !row.rowEdit;
+      cloneTableData.value.map(item => {
+        if (item !== row) {
+          item.rowEdit = false;
+        }
+      })
+    }
+    console.log(row)
+  }
+
+}
 
 let clickEdit = (scope: any) => {
   console.log(scope)
   currentEdit.value = scope.$index + scope.column.id;
 }
+
+let check = (scope: any) => {
+  currentEdit.value = '';
+  emits('check', scope)
+}
+
+let close = (scope: any) => {
+  currentEdit.value = '';
+  emits('close', scope)
+}
+
+let clickEditCell = (scope: any) => {
+  currentEdit.value = '';
+}
+
 </script>
 
 
@@ -100,5 +180,6 @@ let clickEdit = (scope: any) => {
 .icons {
   display: flex;
   width: 4em;
+  cursor: pointer;
 }
 </style>

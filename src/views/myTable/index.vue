@@ -1,12 +1,28 @@
 <template>
   <div>
-    <m-myTable :data="tableData" :options="options" elementLoadingBackground="black">
+    <m-myTable :data="tableData" :options="options" elementLoadingBackground="black" @check="check"
+               isEditRow :editRowIndex="editRowIndex"
+    >
+
+      <!--自定义插槽     -->
       <template #name="{scope}">
         <el-icon-timer></el-icon-timer>
         {{ scope.row.name }}
       </template>
+      <!--操作列插槽     -->
       <template #action="{scope}">
         <el-button type="primary" @click="edit(scope)">编辑</el-button>
+      </template>
+      <!--单元格√X插槽     -->
+      <template #editCell="{scope}">
+        <el-button type="primary" size="small" @click="check(scope)">确认</el-button>
+        <el-button type="danger" size="small">取消</el-button>
+      </template>
+
+      <!--行√X插槽     -->
+      <template #editRow="{scope}">
+        <el-button type="primary" size="small">确认</el-button>
+        <el-button type="danger" size="small">取消</el-button>
       </template>
     </m-myTable>
   </div>
@@ -22,12 +38,13 @@ interface TableData {
   address: string
 }
 
-let tableData = ref<TableData[]>([]);
+const editRowIndex = ref<string>('')
+const tableData = ref<TableData[]>([]);
 setTimeout(() => {
       tableData.value = data;
     }, 1000
 )
-let data = [
+const data = [
   {
     date: '2016-05-03',
     name: 'Tom1',
@@ -49,7 +66,7 @@ let data = [
     address: 'No. 189, Grove St, Los Angeles',
   },
 ];
-let options: TableOptions[] = [
+const options: TableOptions[] = [
   {
     label: '日期',
     prop: 'date',
@@ -76,7 +93,11 @@ let options: TableOptions[] = [
 ]
 
 let edit = (scope: any) => {
-  console.log(scope)
+  editRowIndex.value = 'edit';
+}
+
+let check = (scope: any) => {
+  console.log("父组件 ", scope.row.name)
 }
 </script>
 
