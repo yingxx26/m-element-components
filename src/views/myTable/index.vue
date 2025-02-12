@@ -2,6 +2,12 @@
   <div>
     <m-myTable :data="tableData" :options="options" elementLoadingBackground="black" @check="check"
                isEditRow v-model:editRowIndex="editRowIndex"
+               pagination :total="total" paginationAlign="left"
+               @sizeChange="sizeChange"
+               @currentChange="currentChange"
+               :pageSize="pageSize"
+               :currentPage="current"
+               border
     >
 
       <!--自定义插槽     -->
@@ -99,6 +105,10 @@ const options: TableOptions[] = [
     }, 1000
 ) */
 onMounted(() => {
+  getData();
+})
+
+let getData = () => {
   axios.post('/api/list', {
     current: current.value,
     pageSize: pageSize.value
@@ -107,7 +117,7 @@ onMounted(() => {
     total.value = res.data.data.total
     console.log(res.data)
   })
-})
+}
 
 let edit = (scope: any) => {
   editRowIndex.value = 'edit';
@@ -115,6 +125,16 @@ let edit = (scope: any) => {
 
 let check = (scope: any) => {
   console.log("父组件 ", scope.row.name)
+}
+
+let sizeChange = (val: number) => {
+  pageSize.value = val;
+  getData();
+}
+
+let currentChange = (val: number) => {
+  current.value = val;
+  getData();
 }
 </script>
 

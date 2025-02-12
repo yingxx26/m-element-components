@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-table :data="cloneTableData" v-loading="isLoading" :element-loading-background="elementLoadingBackground"
+    <el-table v-bind="$attrs" :data="cloneTableData" v-loading="isLoading"
+              :element-loading-background="elementLoadingBackground"
               @row-click="rowClick"
     >
       <template v-for="(item, index) in tableOptions" :key="index">
@@ -54,12 +55,11 @@
       </el-table-column>
     </el-table>
 
-    <div class="pagination">
+    <div class="pagination" :style="{justifyContent: paginationAlignJustify}" v-if="pagination">
       <el-pagination
           v-model:current-page="currentPage"
           v-model:page-size="pageSize"
           :page-sizes="pageSizes"
-
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
           @size-change="handleSizeChange"
@@ -127,19 +127,35 @@ const props = defineProps({
   },
   total: {
     type: Number,
+  },
+  pagination: {
+    type: Boolean,
+    default: false
+  },
+  paginationAlign: {
+    type: String as PropType<'left' | 'center' | 'right'>,
+    default: 'right'
   }
 })
 
 const tableOptions = computed(() => props.options?.filter(item => !item.action))
 const actionOptions = computed(() => props.options.find(item => item.action))
 const isLoading = computed(() => !props.data || !props.data.length)
-
+const paginationAlignJustify = computed(() => {
+  if (props.paginationAlign === 'left') {
+    return 'flex-start'
+  } else if (props.paginationAlign === 'center') {
+    return 'center'
+  } else {
+    return 'flex-end'
+  }
+})
 const currentEdit = ref<string>('');
 
 const cloneTableData = ref<any[]>([])
 const cloneEditRowIndex = ref<string>('')
 
-const emits = defineEmits(['check', 'close', 'update:editRowIndex'])
+const emits = defineEmits(['check', 'close', 'update:editRowIndex', 'sizeChange', 'currentChange'])
 
 onMounted(() => {
   cloneNewTableData();
@@ -199,6 +215,14 @@ let clickEditCell = (scope: any) => {
   currentEdit.value = '';
 }
 
+let handleSizeChange = (val: number) => {
+  emits('sizeChange', val);
+}
+let handleCurrentChange = (val: number) => {
+  emits('currentChange', val);
+}
+
+
 </script>
 
 
@@ -218,7 +242,7 @@ let clickEditCell = (scope: any) => {
 
 .pagination {
   display: flex;
-  justify-content: right;
+
   margin-top: 16px;
 }
 </style>
