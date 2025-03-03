@@ -75,5 +75,15 @@ export const menuData = [
     icon: 'ShoppingBag',
     name: '我的表格',
     index: '/myTable'
-  }
+  },
+  {
+    icon: 'ShoppingBag',
+    name: '我的表单',
+    index: '/myForm'
+  },
+  {
+    icon: 'Setting',
+    name: '弹出框表单',
+    index: '/myModalForm'
+  },
 ]

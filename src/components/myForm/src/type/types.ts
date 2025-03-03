@@ -80,5 +80,4 @@ export interface FormInstance {
   resetFields: () => void,
   clearValidate: (props?: string | string[]) => void,
   validateField: (props: string | string[], cb: ValidateFieldCallback) => void,
-  getFormData(): any
 }

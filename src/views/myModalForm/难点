@@ -1,0 +1,7 @@
+插槽传递了两次
+myform                            <slot name="action" :form="form1" :model="model"></slot>
+-> myModalForm（components目录）    <slot name="myfooter" :form="form"></slot>
+-> myModalForm(views目录)           <template #myfooter="scope">
+                                     <el-button @click="cancel">取消</el-button>
+                                     <el-button @click="confirm(scope)">确认</el-button>
+                                   </template>

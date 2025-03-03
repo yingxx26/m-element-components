@@ -21,6 +21,8 @@ import modalForm from './modalForm'
 import table from './table'
 import calendar from './calendar'
 import myTable from "./myTable";
+import myForm from "./myForm";
+import myModalForm from "./myModalForm";
 
 const components = [
     chooseArea,
@@ -37,7 +39,9 @@ const components = [
     modalForm,
     table,
     calendar,
-    myTable
+    myTable,
+    myForm,
+    myModalForm,
 ]
 
 export default {

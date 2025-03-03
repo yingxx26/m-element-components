@@ -118,6 +118,22 @@ const routes: RouteRecordRaw[] = [
         component: ()=>import('../views/myTable/index.vue')
       },
       {
+        path: '/myForm',
+        name:'MyForm',
+        meta: {
+          title:'我的表单'
+        },
+        component: ()=>import('../views/myForm/index.vue')
+      },
+      {
+        path: '/myModalForm',
+        name:'MyModalForm',
+        meta: {
+          title:'表单模型'
+        },
+        component: ()=>import('../views/myModalForm/index.vue')
+      },
+      {
         path: '/calendar',
         name:'Calendar',
         meta: {
