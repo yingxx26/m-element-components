@@ -86,5 +86,10 @@ export const menuData = [
     icon: 'ShoppingBag',
     name: '我的弹窗',
     index: '/myModalForm'
-  }
+  },
+  {
+    icon: 'ShoppingBag',
+    name: '我的工作流',
+    index: '/myProcessSkeleton'
+  },
 ]

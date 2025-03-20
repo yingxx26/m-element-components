@@ -1,0 +1,44 @@
+.jsmart-processSkeletonBox{
+  height: 100%;
+  width: 100%;
+  .processSkeletonBox-show{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: fixed;
+  }
+  .processSkeletonBox-NavMenu{
+    overflow: auto;
+  }
+  .jsmart-historyCommentsBox{
+    width: 100%;
+    padding: 6px;
+    .historyCommentsTitle{
+      padding: 0 6px;
+      font-weight: 700;
+      font-size: 16px;
+      color: #386dff;
+    }
+  }
+  .el-input.is-disabled .el-input__inner {
+    background-color: #F5F7FA !important;
+    color: black !important;
+  }
+  .el-select.is-disabled .el-tag .el-tag__close{
+    display: none;
+  }
+  .el-select.is-disabled{
+    input{
+      cursor: not-allowed !important;
+    }
+  }
+}
+//.el-button, .el-dropdown{
+//  display: inline-block !important;
+//}
+#runfileedit{
+  display: block !important;
+}
+#runfileoperater{
+  display: block !important;
+}

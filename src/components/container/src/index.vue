@@ -11,9 +11,9 @@
       <nav-side :collapse="isCollapse" ></nav-side>
     </el-aside>
     <el-container>
-      <el-header>
+<!--      <el-header>
         <nav-header v-model:collapse="isCollapse"></nav-header>
-      </el-header>
+      </el-header>-->
       <el-main>
         <router-view></router-view>
       </el-main>

@@ -140,6 +140,14 @@ const routes: RouteRecordRaw[] = [
           title:'表格'
         },
         component: ()=>import('../views/calendar/index.vue')
+      },
+        {
+        path: '/myProcessSkeleton',
+        name:'myProcessSkeleton',
+        meta: {
+          title:'表格'
+        },
+        component: ()=>import('../views/myProcessSkeleton/index.vue')
       }
     ]
   },

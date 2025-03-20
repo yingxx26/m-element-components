@@ -6,19 +6,21 @@
  * @description: 
 -->
 <template>
-  <el-container>
-    <el-aside width="auto">
-      <nav-side :collapse="isCollapse" ></nav-side>
-    </el-aside>
+  <div class="body">
     <el-container>
-      <el-header>
-        <nav-header v-model:collapse="isCollapse"></nav-header>
-      </el-header>
-      <el-main>
-        <router-view></router-view>
-      </el-main>
+      <el-aside width="auto">
+        <nav-side :collapse="isCollapse" ></nav-side>
+      </el-aside>
+      <el-container>
+  <!--      <el-header>
+          <nav-header v-model:collapse="isCollapse"></nav-header>
+        </el-header>-->
+        <el-main>
+          <router-view></router-view>
+        </el-main>
+      </el-container>
     </el-container>
-  </el-container>
+  </div>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
@@ -35,5 +37,7 @@ const isCollapse = ref(false)
   align-items: center;
   border-bottom: 1px solid #eee;
 }
-
+.body {
+  overflow: hidden;
+}
 </style>

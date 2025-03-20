@@ -23,6 +23,10 @@ import calendar from './calendar'
 import myTable from "./myTable";
 import myForm from "./myForm";
 import myModalForm from "./myModalForm";
+import myProcessSkeleton from "./myProcessSkeleton";
+import myProcessTitle from "./myProcessTitle";
+import myProcessNavMenu from "./myProcessNavMenu";
+import myNavMenuBodyItem from "./myNavMenuBodyItem";
 
 const components = [
     chooseArea,
@@ -42,6 +46,10 @@ const components = [
     myTable,
     myForm,
     myModalForm,
+    myProcessSkeleton,
+    myProcessTitle,
+    myProcessNavMenu,
+    myNavMenuBodyItem
 ]
 
 export default {
