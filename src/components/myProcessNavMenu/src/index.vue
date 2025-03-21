@@ -156,7 +156,7 @@ export default {
     },
     controlWidth: {
       type: [String, Number],
-      default: 300
+      default: 600
     },
     controlList: {
       type: Array,
@@ -250,6 +250,7 @@ export default {
     },
     //跳转位置
     goPosition(index) {
+      alert("goPosition")
       // 跳转之前获取子模块高度
       this.getOffsetHeight()
       let sh = null;
@@ -305,7 +306,6 @@ export default {
     },
     //滚动时联动标签高亮
     positionTab(e) {
-      console.log('positionTab')
       if (this.isScroll) {
         for (let i = 0; i < this.offsetTopArr.length; i++) {
           if (this.$refs.navMenuBody.scrollTop >= this.offsetTopArr[i].offsetTop) {

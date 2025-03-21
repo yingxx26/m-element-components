@@ -1,0 +1,65 @@
+/*业务流程样式*/
+/*#batchBox {
+  margin: 0;
+  padding: 0;
+  border: 1px solid black;
+  position: fixed;
+  right: -400px;
+  bottom: 40px;
+  width: 400px;
+  height: 200px;
+  z-index: 99;
+  box-sizing: border-box;
+  transition: all .5s linear;
+  background: #cccccc;
+  &:hover {
+    right: 0;
+  }
+  &::before {
+    content: '批列表信息';
+    width: 20px;
+    height: 80px;
+    background: #cccccc;
+    z-index: 100;
+    position: absolute;
+    left: -20px;
+    bottom: 50px;
+    font-size: 12px;
+    margin: 0 auto;
+    background-size: contain;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  p {
+    background: #c0ccda;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 10px;
+    color: red;
+    line-height: 20px;
+    padding-left: 5px;
+  }
+
+  .table {
+    height: 178px;
+    .el-table {
+      font-size: 12px;
+    }
+    .el-table td {
+      padding: 5px;
+    }
+    .text {
+      &:hover {
+        cursor: pointer;
+        color: blue;
+      }
+      &:active {
+        color: green;
+      }
+    }
+  }
+}*/
+//.el-button, .el-dropdown{
+//  display: inline-block !important;
+//}

@@ -27,7 +27,7 @@ import myProcessSkeleton from "./myProcessSkeleton";
 import myProcessTitle from "./myProcessTitle";
 import myProcessNavMenu from "./myProcessNavMenu";
 import myNavMenuBodyItem from "./myNavMenuBodyItem";
-
+import myProcessButtons from "./myProcessButtons";
 const components = [
     chooseArea,
     chooseIcon,
@@ -49,7 +49,8 @@ const components = [
     myProcessSkeleton,
     myProcessTitle,
     myProcessNavMenu,
-    myNavMenuBodyItem
+    myNavMenuBodyItem,
+    myProcessButtons
 ]
 
 export default {

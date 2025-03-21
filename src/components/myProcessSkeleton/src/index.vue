@@ -12,9 +12,7 @@
     <!--       slot又向上传-->
             <slot ></slot>
 
-            <m-myNavMenuBodyItem :key="'receiveInfo'"
-                                    name="receiveInfo"
-            >
+            <m-myNavMenuBodyItem :key="'receiveInfo'"  name="receiveInfo" >
               <div  >收件body</div>
               <div  >收件body</div>
               <div  >收件body</div>
@@ -23,9 +21,7 @@
               <div  >收件body</div>
             </m-myNavMenuBodyItem>
 
-            <m-myNavMenuBodyItem :key="'approvalComments'"
-                                 name="approvalComments"
-            >
+            <m-myNavMenuBodyItem :key="'approvalComments'"  name="approvalComments" >
               <div  >审批意见</div>
               <div  >审批意见</div>
               <div  >审批意见</div>
@@ -36,6 +32,44 @@
 
           </template>
 
+
+          <template v-slot:control >
+            <m-myProcessButtons ref="jsmartProcessButtons"    >
+            </m-myProcessButtons>
+
+
+<!--
+       <jsmartProcessButtons ref="jsmartProcessButtons" :permission.sync="permission" :difFlag="difFlag"
+                                          @findBusinessData="findBusinessData" :taskId.sync="taskId"
+                                          :businessId.sync="businessId" :procInstId.sync="procInstId"
+                                          :xformFlag="xformFlag"
+                                          :procInstName.sync="procInstName" :categoryCode.sync="categoryCode"
+                                          :procDefId.sync="procDefId" :acceptCode.sync="acceptCode"
+                                          :composeCode.sync="composeCode" :businessData.sync="businessData"
+                                          :receiveList.sync="receiveDataChecked" :receiveInfoDataList.sync="receiveInfoDataList" :auditIdeaData.sync="auditIdeaData"
+                                          :bpmsHisBusiness.sync="bpmsHisBusiness" :showList.sync="showList"
+                                          :validateForm="validateForm" :needEndArr="needEndArr"
+                                          :receiveType="receiveType" :formCode="formCode"
+                                          :beforeEndCheckArr="beforeEndCheckArr" :areaCode="areaCode"
+                                          @findReceiveInfoData="findReceiveInfoData"
+                                          @findApprovalCommentsData="findApprovalCommentsData"
+                                          @refreshData="refreshData"
+                                          @findBpmsHisBusiness="getBusinessHeaderAndPermision"
+                                          :eventFlowUrl="eventFlowUrl"
+                                          :loadFalg.sync="loadFalg"
+                                          :dynamicTaskDisableCheckIds="dynamicTaskDisableCheckIds" :dynamicTaskAcceptLabel="dynamicTaskAcceptLabel"
+                                          :dynamicTaskSingle="dynamicTaskSingle"
+                    >
+                        <template v-slot:pre-button="slotPorps">
+                            <slot name="pre-button" :permission="slotPorps.permission"></slot>
+                        </template>
+                        <template  v-slot:button="slotPorps">
+                            <slot name="button" :permission="slotPorps.permission"></slot>
+                        </template>
+                    </jsmartProcessButtons>
+
+       -->
+          </template>
         </m-myProcessNavMenu>
       </div>
     </div>

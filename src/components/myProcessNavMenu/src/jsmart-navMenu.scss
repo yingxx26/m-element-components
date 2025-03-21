@@ -20,14 +20,16 @@
       }
     }
     .jsmart-NavMenuTop-right{
-      display: flex; align-items: center; flex: none;justify-content: flex-end;
+      display: flex; align-items: center; flex: none;justify-content: flex-end; width:100%
       //margin-right: 20px;padding: 0;
-      .jsmart-preview{display: flex; align-items: center; justify-content: flex-end}
+      /*.jsmart-preview{display: flex; align-items: center; justify-content: flex-end}*/
     }
     .jsmart-NavMenuTop-item{
       font-weight: 800;
       padding: 0px 20px;border-bottom:transparent 2px solid; height: 60px;cursor: pointer;display: inline-block; line-height: 60px;
-      &.selected{}
+      &.selected{
+        background: #386dff;
+      }
     }
     &.isFlatMode{
       //height: 40px!important;
